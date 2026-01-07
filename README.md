@@ -27,4 +27,4 @@ target_link_libraries(my_target PRIVATE solo::any_handle)
 - Depends on STL library.
 - The extended package depends on
     - [**Boost**](https://www.boost.org/libraries/latest/grid/) libraries.
-    - [**Stdex**](https://nicolaspichon-git.github.io/stdex/) library.
+    - [**Stdex**](https://github.com/nicolaspichon-git/stdex/) library.
