@@ -1,0 +1,11 @@
+Solo's AnyHandle Library
+------------------------
+Nicolas Pichon, France, 2020/07/03.
+
+* Version 1.0.0-alpha (2020/07/03)
+----------------------------------
+    Todo:
+        Create a Nuget package (how to generate nuget under linux?).
+        Check unit tests coverage.
+        Provide configuration macros in order to deliver the component as a Window dynamic library.
+

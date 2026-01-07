@@ -1,0 +1,4 @@
+[submodule "external/stdex"]
+	path = external/stdex
+	url = https://github.com/nicolaspichon-git/stdex
+	branch = master
