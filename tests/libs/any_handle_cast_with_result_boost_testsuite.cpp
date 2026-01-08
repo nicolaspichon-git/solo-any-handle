@@ -10,7 +10,7 @@
 #include "any_handle_testsuite_types.hpp"
 
 #include <solo/anys/handles/any_handle_core_package.hpp>
-#include <stdex/typeindex/testing/printing/std_type_index_boost_test_outputters.hpp>
+#include <stdex/testing/printing/typeindex/std_type_index_boost_test_outputters.hpp>
 
 #include <boost/test/unit_test.hpp>
 
@@ -181,5 +181,5 @@ BOOST_AUTO_TEST_CASE( NonMutableHandleMutableCast_FailureTest )
 BOOST_AUTO_TEST_SUITE_END()
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLOTESTS
+}}// EONS SOLOTESTS
 ////////////////////////////////////////////////////////////////////////////////
