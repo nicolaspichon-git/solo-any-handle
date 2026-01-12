@@ -147,10 +147,10 @@ public:
     // copy-move operations:
 
     /// @brief Default copy constructor.
-    constexpr any_type_index(any_type_index const &) noexcept = default;
+    constexpr any_type_index(const any_type_index &) noexcept = default;
 
     /// @brief Default assign-by-copy operator.
-    any_type_index &operator=(any_type_index const &) noexcept = default;
+    any_type_index &operator=(const any_type_index &) noexcept = default;
 
     /// @brief Default move constructor.
     /// @post *new this == old another.
@@ -181,14 +181,14 @@ public:
     /// @brief Return true if all type's properties are equal (including mutability and emptiness).
     ///
     ///	The comparison operators compare builtin c++ type information only (acting like if @c any_type_index were @c std::type_index).
-    bool equals(any_type_index const &another) const noexcept;
+    bool equals(const any_type_index &another) const noexcept;
 
 protected:
 
     // explicit type info-based constructor:
 
     /// @brief The type of the internal pointer to the @c any_type_info singleton instance.
-    using any_type_info_pointer_type = std::experimental::observer_ptr<anys::details::any_type_info const>;
+    using any_type_info_pointer_type = std::experimental::observer_ptr<const anys::details::any_type_info>;
 
     /// @brief Build a @c any_type_index type information from a static @c any_type_info singleton instance.
     /// @param a_type_info_instance_ptr A static singleton instance of type @c any_type_info .
@@ -220,7 +220,7 @@ namespace anys { namespace details {
     inline std::experimental::observer_ptr<any_type_info const>
     empty_any_type_info_instance_ptr() noexcept
     {
-        static auto const sti = any_type_info{};
+        static const auto sti = any_type_info{};
         return std::experimental::make_observer(&sti);
     }
 
@@ -238,7 +238,7 @@ any_type_index::swap(any_type_index &another) noexcept
     swap(m_ti_ptr,another.m_ti_ptr);
 }
 
-inline constexpr std::type_index const &
+inline constexpr const std::type_index &
 any_type_index::external_type_index() const noexcept
 {
     return m_ti_ptr->m_external_type_index;
@@ -257,7 +257,7 @@ any_type_index::is_type_empty() const noexcept
 }
 
 inline bool
-any_type_index::equals(any_type_index const &another) const noexcept
+any_type_index::equals(const any_type_index &another) const noexcept
 {
     return m_ti_ptr->m_external_type_index == another.m_ti_ptr->m_external_type_index
             && m_ti_ptr->m_nonempty_flag == another.m_ti_ptr->m_nonempty_flag
@@ -276,70 +276,70 @@ any_type_index::any_type_index( any_type_index::any_type_info_pointer_type a_typ
 
 namespace
 {
-inline bool operator==( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y == a_x;
-}
+    inline bool operator==( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y == a_x;
+    }
 
-inline bool operator!=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y != a_x;
-}
+    inline bool operator!=( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y != a_x;
+    }
 
-inline bool operator<=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y <= a_x;
-}
+    inline bool operator<=( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y <= a_x;
+    }
 
-inline bool operator< ( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y <  a_x;
-}
+    inline bool operator< ( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y <  a_x;
+    }
 
-inline bool operator>=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y >= a_x;
-}
+    inline bool operator>=( const std::type_info &a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y >= a_x;
+    }
 
-inline bool operator> ( std::type_info const &a_x, std::type_index const &a_y ) noexcept
-{
-    return a_y >  a_x;
-}
+    inline bool operator> ( const std::type_info &a_x, const std::type_index &a_y ) noexcept
+    {
+        return a_y >  a_x;
+    }
 }
 
 #define SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( op ) \
 inline bool operator op ( any_type_index const &a_x, any_type_index const &a_y ) noexcept \
 { \
-        return a_x.external_type_index() op a_y.external_type_index(); \
+    return a_x.external_type_index() op a_y.external_type_index(); \
 } \
-    inline bool operator op ( any_type_index const &a_x, std::type_index const &a_y ) noexcept \
+inline bool operator op ( any_type_index const &a_x, std::type_index const &a_y ) noexcept \
 { \
-        return a_x.external_type_index() op a_y; \
+    return a_x.external_type_index() op a_y; \
 } \
-    inline bool operator op ( std::type_index const &a_x, any_type_index const &a_y ) noexcept \
+inline bool operator op ( std::type_index const &a_x, any_type_index const &a_y ) noexcept \
 { \
-        return a_x op a_y.external_type_index(); \
+    return a_x op a_y.external_type_index(); \
 } \
-    inline bool operator op ( any_type_index const &a_x, std::type_info const &a_y ) noexcept \
+inline bool operator op ( any_type_index const &a_x, std::type_info const &a_y ) noexcept \
 { \
-        return a_x.external_type_index() op a_y; \
+    return a_x.external_type_index() op a_y; \
 } \
-    inline bool operator op ( std::type_info const &a_x, any_type_index const &a_y ) noexcept \
+inline bool operator op ( std::type_info const &a_x, any_type_index const &a_y ) noexcept \
 { \
-        return a_x op a_y.external_type_index(); \
+    return a_x op a_y.external_type_index(); \
 }
 
 SOLO_DISABLE_WARNING_PUSH
-    SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
+SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
 
-            SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( == )
-    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( != )
-    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( < )
-    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( <= )
-    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( > )
-    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( >= )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( == )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( != )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( < )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( <= )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( > )
+SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( >= )
 
-    SOLO_DISABLE_WARNING_POP
+SOLO_DISABLE_WARNING_POP
 
 #undef SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR
 

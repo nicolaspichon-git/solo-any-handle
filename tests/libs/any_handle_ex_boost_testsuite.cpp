@@ -31,6 +31,7 @@ BOOST_AUTO_TEST_CASE( FactoryInPlaceTest )
 
     // built the non-mutable object TestObject{1} in-place :
     auto a_sh1 = make_any_handle<TestObject>( stdex::in_place, 1 );
+    // check state:
     BOOST_TEST(a_sh1.use_count() == 1);
     BOOST_TEST(a_sh1.type() == typeid(TestObject));
     BOOST_TEST(a_sh1.is_mutable() == false);
@@ -51,6 +52,7 @@ BOOST_AUTO_TEST_CASE( FactoryMutableInPlaceTest )
 
     // built the mutable object TestObject{1} in-place :
     auto a_sh1 = make_any_handle_mutable<TestObject>( stdex::in_place, 1 );
+    // check state:
     BOOST_TEST(a_sh1.use_count() == 1);
     BOOST_TEST(a_sh1.type() == typeid(TestObject));
     BOOST_TEST(a_sh1.is_mutable() == true);
@@ -68,6 +70,7 @@ BOOST_AUTO_TEST_CASE( FactoryInPlaceTypeTest )
 
     // built the non-mutable object TestObject{4} in-place and get back a shared pointer of type TestObjectBase :
     auto a_sh4 = make_any_handle<TestObjectBase>( stdex::in_place_type<TestObject>, 4 );
+    // check state:
     BOOST_TEST(a_sh4.use_count() == 1);
     BOOST_TEST(a_sh4.type() == typeid(TestObjectBase));
     BOOST_TEST(a_sh4.is_mutable() == false);
@@ -83,8 +86,9 @@ BOOST_AUTO_TEST_CASE( FactoryMutableInPlaceTypeTest )
     using solo::make_any_handle_mutable;
     using solo::any_handle_cast_or_throw;
 
-    // built the mutable object TestObject{4} in-place and get back a shared pointer of type TestObjectBase :
+    // built the mutable object TestObject{4} in-place and get back a shared pointer of type TestObjectBase:
     auto a_sh4 = make_any_handle_mutable<TestObjectBase>( stdex::in_place_type<TestObject>, 4 );
+    // check state:
     BOOST_TEST(a_sh4.use_count() == 1);
     BOOST_TEST(a_sh4.type() == typeid(TestObjectBase));
     BOOST_TEST(a_sh4.is_mutable() == true);
@@ -102,7 +106,9 @@ BOOST_AUTO_TEST_CASE( FactoryObserverTest )
     using solo::any_handle_cast_or_throw;
 
     auto x3 = TestObject{3};
+    // use the "observer ptr" non-mutables factory:
     auto a_sh3 = make_any_handle( stdex::make_observer(&x3) );
+    // check state:
     BOOST_TEST(a_sh3.use_count() == 1);
     BOOST_TEST(a_sh3.type() == typeid(TestObject));
     BOOST_TEST(a_sh3.is_mutable() == false);
@@ -119,6 +125,7 @@ BOOST_AUTO_TEST_CASE( FactoryMutableObserverTest )
     using solo::any_handle_cast_or_throw;
 
     auto x3 = TestObject{3};
+    // use the "observer ptr" mutables factory:
     auto a_sh3 = make_any_handle_mutable( stdex::make_observer(&x3) );
     BOOST_TEST(a_sh3.use_count() == 1);
     BOOST_TEST(a_sh3.type() == typeid(TestObject));
@@ -139,6 +146,8 @@ BOOST_AUTO_TEST_CASE( FactoryFinalizerTest )
     auto x4 = TestObject{4};
     {
         auto finalizer = [](TestObject *p){ p->setdata(0); };
+        // use the "raw pointer + finalizer" non-mutables factory:
+        // check state:
         auto a_sh4 = make_any_handle( &x4, finalizer );
         BOOST_TEST(a_sh4.use_count() == 1);
         BOOST_TEST(a_sh4.type() == typeid(TestObject));
@@ -146,30 +155,36 @@ BOOST_AUTO_TEST_CASE( FactoryFinalizerTest )
         BOOST_TEST(a_sh4.pointer().get() == &x4);
         BOOST_TEST(a_sh4.mutable_pointer() == nullptr);
         auto y_sh4 = any_handle_cast_or_throw<const TestObject>(a_sh4);
+        BOOST_TEST(y_sh4.use_count() == 2);
         BOOST_TEST(y_sh4.get() == &x4);
         BOOST_TEST(y_sh4->data() == 4);
     }
+    // what the finalizer promised:
     BOOST_TEST(x4.data() == 0);
 }
 
 BOOST_AUTO_TEST_CASE( FactoryMutableFinalizerTest )
 {
     using solo::make_any_handle_mutable;
-    using solo::any_handle_mutable_cast_or_throw;
     using solo::any_handle_cast_or_throw;
+    using solo::any_handle_mutable_cast_or_throw;
 
     auto x4 = TestObject{4};
     {
         auto finalizer = [](TestObject *p){ p->setdata(0); };
+        // use the "raw pointer + finalizer" mutables factory:
         auto a_sh4 = make_any_handle_mutable( &x4, finalizer );
+        // check state:
         BOOST_TEST(a_sh4.use_count() == 1);
         BOOST_TEST(a_sh4.type() == typeid(TestObject));
         BOOST_TEST(a_sh4.is_mutable() == true);
         BOOST_TEST(a_sh4.pointer().get() == &x4);
         auto y_sh4 = any_handle_cast_or_throw<const TestObject>(a_sh4);
+        BOOST_TEST(y_sh4.use_count() == 2);
         BOOST_TEST(y_sh4.get() == &x4);
         BOOST_TEST(y_sh4->data() == 4);
     }
+    // what the finalizer promised:
     BOOST_TEST(x4.data() == 0);
 }
 

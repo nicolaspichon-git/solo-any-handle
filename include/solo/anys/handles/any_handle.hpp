@@ -134,10 +134,10 @@ public:
     // copy-move operations:
 
     /// @brief Default copy-constructor.
-    any_handle(any_handle const &) noexcept = default;
+    any_handle(const any_handle &) noexcept = default;
 
     /// @brief Default copy-assign operator.
-    any_handle &operator=(any_handle const &) noexcept = default;
+    any_handle &operator=(const any_handle &) noexcept = default;
 
     /// @brief Default move-constructor.
     /// @post *new this == old another.
@@ -182,7 +182,7 @@ public:
     ///
     ///	The comparison operators compare pointers only (acting like if @c any_handle were a raw pointer).
     ///
-    bool equals( any_handle const &another ) const noexcept;
+    bool equals( const any_handle &another ) const noexcept;
 
     // properties:
 
@@ -191,7 +191,7 @@ public:
 
     /// @brief Get the handled object's type information.
     /// @note Could return @c typeid(void) even if this handle is not empty.
-    constexpr type_index_type const &type() const noexcept;
+    constexpr const type_index_type &type() const noexcept;
 
     /// @brief The type-erased shared non-mutable pointer type.
     using pointer_type = std::shared_ptr<const void>;
@@ -239,7 +239,7 @@ protected:
     /// It allows users to include @c any_handle members in class declaration
     /// without being polluted by templates definitions.
     ///
-    explicit any_handle( internal_type_index_type const &a_ti, mutable_pointer_type const &a_sp ) noexcept;
+    explicit any_handle( const internal_type_index_type &a_ti, const mutable_pointer_type &a_sp ) noexcept;
 
     /// @brief Explicit member-based constructor (moving the given shared pointer).
     /// @param a_ti The enhanced type information to store.
@@ -254,7 +254,7 @@ protected:
     /// @post ( not(empty()) ) ==> ( pointer() == copy of a_sp ).
     /// @see @c make_any_handle, @c make_any_handle_base, @c make_any_type_index.
     /// @see <c>any_handle(internal_type_index_type const &a_ti, mutable_pointer_type const &)</c>.
-    explicit any_handle( internal_type_index_type const &a_ti, mutable_pointer_type &&a_sp ) noexcept;
+    explicit any_handle( const internal_type_index_type &a_ti, mutable_pointer_type &&a_sp ) noexcept;
 
 private:
 
@@ -274,13 +274,13 @@ static_assert(sizeof(any_handle) == sizeof(std::shared_ptr<void>) + sizeof(void*
 // INLINES
 
 inline
-any_handle::any_handle( any_handle::internal_type_index_type const &a_ti, any_handle::mutable_pointer_type const &a_sp ) noexcept
+any_handle::any_handle( const any_handle::internal_type_index_type &a_ti, const any_handle::mutable_pointer_type &a_sp ) noexcept
     : m_ti{ a_ti }
     , m_pointer{ a_ti.is_type_empty() ? nullptr : a_sp }// copy the given shared pointer
 {}
 
 inline
-any_handle::any_handle( any_handle::internal_type_index_type const &a_ti, any_handle::mutable_pointer_type &&a_sp ) noexcept
+any_handle::any_handle( const any_handle::internal_type_index_type &a_ti, any_handle::mutable_pointer_type &&a_sp ) noexcept
   : m_ti{ a_ti }
   , m_pointer{ a_ti.is_type_empty() ? nullptr : std::move(a_sp) }// move the given shared pointer
 {}
@@ -349,46 +349,46 @@ any_handle::mutable_pointer() const noexcept
 #define SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( op ) \
 inline bool operator op ( any_handle const &a_x, any_handle const &a_y ) noexcept \
 { \
-        return a_x.pointer() op a_y.pointer(); \
+    return a_x.pointer() op a_y.pointer(); \
 } \
-    template< typename T > \
-    inline bool operator op ( any_handle const &a_x, std::shared_ptr<T> const &a_y ) noexcept \
+template< typename T > \
+inline bool operator op ( any_handle const &a_x, std::shared_ptr<T> const &a_y ) noexcept \
 { \
-        return a_x.pointer() op a_y; \
+    return a_x.pointer() op a_y; \
 } \
-    template< typename T > \
-    inline bool operator op ( std::shared_ptr<T> const &a_x, any_handle const &a_y ) noexcept \
+template< typename T > \
+inline bool operator op ( std::shared_ptr<T> const &a_x, any_handle const &a_y ) noexcept \
 { \
-        return a_x op a_y.pointer(); \
+    return a_x op a_y.pointer(); \
 } \
-    inline bool operator op ( any_handle const &a_x, void const *a_y ) noexcept \
+inline bool operator op ( any_handle const &a_x, void const *a_y ) noexcept \
 { \
-        return a_x.pointer().get() op a_y; \
+    return a_x.pointer().get() op a_y; \
 } \
-    inline bool operator op ( void const *a_x, any_handle const &a_y ) noexcept \
+inline bool operator op ( void const *a_x, any_handle const &a_y ) noexcept \
 { \
-        return a_x op a_y.pointer().get(); \
+    return a_x op a_y.pointer().get(); \
 } \
-    inline bool operator op ( any_handle const &a_x, std::nullptr_t ) noexcept \
+inline bool operator op ( any_handle const &a_x, std::nullptr_t ) noexcept \
 { \
-        return a_x.pointer() op nullptr; \
+    return a_x.pointer() op nullptr; \
 } \
-    inline bool operator op ( std::nullptr_t, any_handle const &a_y ) noexcept \
+inline bool operator op ( std::nullptr_t, any_handle const &a_y ) noexcept \
 { \
-        return nullptr op a_y.pointer(); \
+    return nullptr op a_y.pointer(); \
 }
 
 SOLO_DISABLE_WARNING_PUSH
-    SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
+SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
 
-            SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( == )
-    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( != )
-    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( < )
-    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( <= )
-    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( > )
-    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( >= )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( == )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( != )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( < )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( <= )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( > )
+SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( >= )
 
-    SOLO_DISABLE_WARNING_POP
+SOLO_DISABLE_WARNING_POP
 
 #undef SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR
 

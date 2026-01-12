@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE( StdSharedPtrEqOperatorComparesPointerValues )
     //BOOST_TEST(( x_sh == x_sh.get() ));
 }
 
-BOOST_AUTO_TEST_CASE( StdSharedPtrEqOperatorComparesToStdNullptr )
+BOOST_AUTO_TEST_CASE( StdShPtrEqOperatorComparesToStdNullptr )
 {
     // -- check that std::shared_ptr's equality operator compares to nullptr.
 
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE( StdSharedPtrEqOperatorComparesToStdNullptr )
     BOOST_TEST( x_sh != nullptr );
 }
 
-BOOST_AUTO_TEST_CASE( StdSharedPtrEqOperatorIgnoresConstQualifier )
+BOOST_AUTO_TEST_CASE( StdShPtrEqOperatorIgnoresConstQualifier )
 {
     auto x_sh = std::make_shared<TestObject>();
     auto y_sh = std::static_pointer_cast<const void>(x_sh);

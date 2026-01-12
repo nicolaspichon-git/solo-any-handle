@@ -67,8 +67,8 @@ namespace anys { namespace details {
     select_any_type_info_instance_ptr( mutability a_ismutable ) noexcept
     {
         return ( ( a_ismutable == mutability::true_ ) && !( std::is_const<T>::value ) ) ?
-                   any_type_info_instance_ptr<T,mutability::true_>() :
-                   any_type_info_instance_ptr<T,mutability::false_>();
+                   any_type_info_instance_ptr<T, mutability::true_>() :
+                   any_type_info_instance_ptr<T, mutability::false_>();
     }
 
     // -- definitions
