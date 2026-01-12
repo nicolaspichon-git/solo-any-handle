@@ -276,22 +276,22 @@ any_type_index::any_type_index( any_type_index::any_type_info_pointer_type a_typ
 
 namespace
 {
-    inline bool operator==( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    inline bool operator==( const std::type_info &a_x, const std::type_index &a_y ) noexcept
     {
         return a_y == a_x;
     }
 
-    inline bool operator!=( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    inline bool operator!=( const std::type_info &a_x, const std::type_index &a_y ) noexcept
     {
         return a_y != a_x;
     }
 
-    inline bool operator<=( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    inline bool operator<=( const std::type_info &a_x, const std::type_index &a_y ) noexcept
     {
         return a_y <= a_x;
     }
 
-    inline bool operator< ( const std::type_info a_x, const std::type_index &a_y ) noexcept
+    inline bool operator< ( const std::type_info &a_x, const std::type_index &a_y ) noexcept
     {
         return a_y <  a_x;
     }
@@ -308,23 +308,23 @@ namespace
 }
 
 #define SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( op ) \
-inline bool operator op ( any_type_index const &a_x, any_type_index const &a_y ) noexcept \
+inline bool operator op ( const any_type_index &a_x, const any_type_index &a_y ) noexcept \
 { \
     return a_x.external_type_index() op a_y.external_type_index(); \
 } \
-inline bool operator op ( any_type_index const &a_x, std::type_index const &a_y ) noexcept \
+inline bool operator op ( const any_type_index &a_x, const std::type_index &a_y ) noexcept \
 { \
     return a_x.external_type_index() op a_y; \
 } \
-inline bool operator op ( std::type_index const &a_x, any_type_index const &a_y ) noexcept \
+inline bool operator op ( const std::type_index &a_x, const any_type_index &a_y ) noexcept \
 { \
     return a_x op a_y.external_type_index(); \
 } \
-inline bool operator op ( any_type_index const &a_x, std::type_info const &a_y ) noexcept \
+inline bool operator op ( const any_type_index &a_x, const std::type_info &a_y ) noexcept \
 { \
     return a_x.external_type_index() op a_y; \
 } \
-inline bool operator op ( std::type_info const &a_x, any_type_index const &a_y ) noexcept \
+inline bool operator op ( const std::type_info &a_x, const any_type_index &a_y ) noexcept \
 { \
     return a_x op a_y.external_type_index(); \
 }
