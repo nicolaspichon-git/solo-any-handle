@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 
+// already included : #include <solo/anys/handles/pragmas/disables_warnings.hpp>
 #include <solo/anys/handles/any_type_index.hpp>
 #include <memory>
 
@@ -15,9 +16,96 @@
 namespace solo {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package:
+// -- package
 
+/// @ingroup SoloAnyHandle
+/// @brief Wrap a type-erased handle of type @c std::shared_ptr<void>.
+///
+/// Design rationale:
+/// - safe building and casting operations are delegated to separate templatized builder/casters.
 class any_handle;
+
+// -- package
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_handle objects.
+///
+/// The rationale is to compare pointers only,
+/// ignoring type information, and acting as if @c any_handle objects
+/// were raw pointers (as @c std::shared_ptr<T> do).
+///
+/// Users should use @c any_handle::equals method to perfom exact equality comparison
+/// between @c any_handle objects.
+///
+inline bool operator==( any_handle const &, any_handle const & ) noexcept;
+inline bool operator!=( any_handle const &, any_handle const & ) noexcept;
+inline bool operator<=( any_handle const &, any_handle const & ) noexcept;
+inline bool operator< ( any_handle const &, any_handle const & ) noexcept;
+inline bool operator>=( any_handle const &, any_handle const & ) noexcept;
+inline bool operator> ( any_handle const &, any_handle const & ) noexcept;
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_handle and @c std::shared_ptr<T> objects.
+/// @see operator==( any_handle const &, any_handle const & )
+/// @see operator!=( any_handle const &, any_handle const & )
+/// @see operator<=( any_handle const &, any_handle const & )
+/// @see operator< ( any_handle const &, any_handle const & )
+/// @see operator>=( any_handle const &, any_handle const & )
+/// @see operator> ( any_handle const &, any_handle const & )
+template< typename T > bool operator==( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator!=( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator<=( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator< ( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator>=( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator> ( any_handle const &, std::shared_ptr<T> const & ) noexcept;
+template< typename T > bool operator==( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+template< typename T > bool operator!=( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+template< typename T > bool operator<=( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+template< typename T > bool operator< ( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+template< typename T > bool operator>=( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+template< typename T > bool operator> ( std::shared_ptr<T> const &, any_handle const & ) noexcept;
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_handle object and raw pointer.
+/// @see operator==( any_handle const &, any_handle const & )
+/// @see operator!=( any_handle const &, any_handle const & )
+/// @see operator<=( any_handle const &, any_handle const & )
+/// @see operator< ( any_handle const &, any_handle const & )
+/// @see operator>=( any_handle const &, any_handle const & )
+/// @see operator> ( any_handle const &, any_handle const & )
+inline bool operator==( any_handle const &, void const * ) noexcept;
+inline bool operator!=( any_handle const &, void const * ) noexcept;
+inline bool operator<=( any_handle const &, void const * ) noexcept;
+inline bool operator< ( any_handle const &, void const * ) noexcept;
+inline bool operator>=( any_handle const &, void const * ) noexcept;
+inline bool operator> ( any_handle const &, void const * ) noexcept;
+inline bool operator==( void const *, any_handle const & ) noexcept;
+inline bool operator!=( void const *, any_handle const & ) noexcept;
+inline bool operator<=( void const *, any_handle const & ) noexcept;
+inline bool operator< ( void const *, any_handle const & ) noexcept;
+inline bool operator>=( void const *, any_handle const & ) noexcept;
+inline bool operator> ( void const *, any_handle const & ) noexcept;
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_handle object and @c nullptr.
+/// @see operator==( any_handle const &, any_handle const & )
+/// @see operator!=( any_handle const &, any_handle const & )
+/// @see operator<=( any_handle const &, any_handle const & )
+/// @see operator< ( any_handle const &, any_handle const & )
+/// @see operator>=( any_handle const &, any_handle const & )
+/// @see operator> ( any_handle const &, any_handle const & )
+inline bool operator==( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator!=( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator<=( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator< ( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator>=( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator> ( any_handle const &, std::nullptr_t ) noexcept;
+inline bool operator==( std::nullptr_t, any_handle const & ) noexcept;
+inline bool operator!=( std::nullptr_t, any_handle const & ) noexcept;
+inline bool operator>=( std::nullptr_t, any_handle const & ) noexcept;
+inline bool operator> ( std::nullptr_t, any_handle const & ) noexcept;
+inline bool operator<=( std::nullptr_t, any_handle const & ) noexcept;
+inline bool operator< ( std::nullptr_t, any_handle const & ) noexcept;
 
 //..............................................................................
 //..............................................................................
@@ -25,10 +113,6 @@ class any_handle;
 // -- definition:
 
 /// @ingroup SoloAnyHandle
-/// @brief Wrap a type-erased handle of type @c std::shared_ptr<void>.
-///
-/// Design rationale:
-/// - safe building and casting operations are delegated to separate templatized builder/casters.
 class any_handle
 {
 public:
@@ -187,7 +271,7 @@ static_assert(sizeof(any_handle) == sizeof(std::shared_ptr<void>) + sizeof(void*
 //..............................................................................
 //..............................................................................
 
-// INLINES :
+// INLINES
 
 inline
 any_handle::any_handle( any_handle::internal_type_index_type const &a_ti, any_handle::mutable_pointer_type const &a_sp ) noexcept
@@ -256,6 +340,57 @@ any_handle::mutable_pointer() const noexcept
 {
     return m_ti.is_type_mutable() ? m_pointer : nullptr;
 }
+
+//..............................................................................
+//..............................................................................
+
+// -- definitions
+
+#define SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( op ) \
+inline bool operator op ( any_handle const &a_x, any_handle const &a_y ) noexcept \
+{ \
+        return a_x.pointer() op a_y.pointer(); \
+} \
+    template< typename T > \
+    inline bool operator op ( any_handle const &a_x, std::shared_ptr<T> const &a_y ) noexcept \
+{ \
+        return a_x.pointer() op a_y; \
+} \
+    template< typename T > \
+    inline bool operator op ( std::shared_ptr<T> const &a_x, any_handle const &a_y ) noexcept \
+{ \
+        return a_x op a_y.pointer(); \
+} \
+    inline bool operator op ( any_handle const &a_x, void const *a_y ) noexcept \
+{ \
+        return a_x.pointer().get() op a_y; \
+} \
+    inline bool operator op ( void const *a_x, any_handle const &a_y ) noexcept \
+{ \
+        return a_x op a_y.pointer().get(); \
+} \
+    inline bool operator op ( any_handle const &a_x, std::nullptr_t ) noexcept \
+{ \
+        return a_x.pointer() op nullptr; \
+} \
+    inline bool operator op ( std::nullptr_t, any_handle const &a_y ) noexcept \
+{ \
+        return nullptr op a_y.pointer(); \
+}
+
+SOLO_DISABLE_WARNING_PUSH
+    SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
+
+            SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( == )
+    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( != )
+    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( < )
+    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( <= )
+    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( > )
+    SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( >= )
+
+    SOLO_DISABLE_WARNING_POP
+
+#undef SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR
 
 ////////////////////////////////////////////////////////////////////////////////
 }// EONS SOLO

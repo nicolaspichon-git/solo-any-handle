@@ -12,10 +12,12 @@
 #include <experimental/memory>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace detail {
+namespace solo { namespace obsolete { namespace anys { namespace details {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
+using solo::anys::details::any_type_info;
+
+// -- package
 
 template < typename T, mutability IsMutable >
 std::experimental::observer_ptr<any_type_info const>
@@ -24,9 +26,9 @@ any_type_info_instance_ptr() noexcept;
 //..............................................................................
 //..............................................................................
 
-// -- definition :
+// -- definitions
 
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 /// @brief Return a non-mutable reference to the static @c any_handle_info_wrapper
 /// object associated with the template parameters.
 /// @post Return a non-empty type wrapper.
@@ -47,5 +49,5 @@ any_type_info_instance_ptr() noexcept
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::DETAIL
+}}}}// EONS SOLO::OBS::ANYS::DETAILS
 ////////////////////////////////////////////////////////////////////////////////

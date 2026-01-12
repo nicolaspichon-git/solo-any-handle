@@ -9,24 +9,17 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-// already included : #include <solo/anys/handles/details/any_type_info.hpp>
-#include <solo/anys/handles/details/empty_any_type_info_instance.hpp>
-
-// already included : #include <experimental/memory>
+#include <solo/anys/handles/pragmas/disables_warnings.hpp>
+#include <solo/anys/handles/mutability.hpp>
+#include <experimental/memory>
+#include <typeindex>
 #include <utility>
 
 ////////////////////////////////////////////////////////////////////////////////
 namespace solo {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
-
-class any_type_index;
-
-//..............................................................................
-//..............................................................................
-
-// -- definition :
+// -- package
 
 /// @ingroup SoloAnyHandle
 /// @brief Point to enhanced runtime c++ type information.
@@ -40,6 +33,102 @@ class any_type_index;
 ///
 /// Design rationale :
 /// - safe building operations are delegated to separate templatized builders.
+class any_type_index;
+
+// -- package
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_type_index objects.
+///
+/// The rationale is to compare builtin c++ type information only,
+/// ignoring emtyness and mutablity flag, and acting as if @c any_type_index objects
+///  were @c std::type_info objects.
+///
+/// Users should use @c any_type_index::equals method to perfom exact equality comparison
+/// between @c any_type_index objects.
+///
+bool operator==( any_type_index const &, any_type_index const & ) noexcept;
+bool operator!=( any_type_index const &, any_type_index const & ) noexcept;
+bool operator<=( any_type_index const &, any_type_index const & ) noexcept;
+bool operator< ( any_type_index const &, any_type_index const & ) noexcept;
+bool operator>=( any_type_index const &, any_type_index const & ) noexcept;
+bool operator> ( any_type_index const &, any_type_index const & ) noexcept;
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_type_index and @c std::type_index objects.
+/// @see operator==( any_type_index const &, any_type_index const & )
+/// @see operator!=( any_type_index const &, any_type_index const & )
+/// @see operator<=( any_type_index const &, any_type_index const & )
+/// @see operator< ( any_type_index const &, any_type_index const & )
+/// @see operator>=( any_type_index const &, any_type_index const & )
+/// @see operator> ( any_type_index const &, any_type_index const & )
+bool operator==( any_type_index const &, std::type_index const & ) noexcept;
+bool operator!=( any_type_index const &, std::type_index const & ) noexcept;
+bool operator<=( any_type_index const &, std::type_index const & ) noexcept;
+bool operator< ( any_type_index const &, std::type_index const & ) noexcept;
+bool operator>=( any_type_index const &, std::type_index const & ) noexcept;
+bool operator> ( any_type_index const &, std::type_index const & ) noexcept;
+bool operator==( std::type_index const &, any_type_index const & ) noexcept;
+bool operator!=( std::type_index const &, any_type_index const & ) noexcept;
+bool operator<=( std::type_index const &, any_type_index const & ) noexcept;
+bool operator< ( std::type_index const &, any_type_index const & ) noexcept;
+bool operator>=( std::type_index const &, any_type_index const & ) noexcept;
+bool operator> ( std::type_index const &, any_type_index const & ) noexcept;
+
+
+/// @ingroup SoloAnyHandle
+/// @brief Comparison operators between @c any_type_index and @c std::type_info objects.
+/// @see operator==( any_type_index const &, any_type_index const & )
+/// @see operator!=( any_type_index const &, any_type_index const & )
+/// @see operator<=( any_type_index const &, any_type_index const & )
+/// @see operator< ( any_type_index const &, any_type_index const & )
+/// @see operator>=( any_type_index const &, any_type_index const & )
+/// @see operator> ( any_type_index const &, any_type_index const & )
+bool operator==( any_type_index const &, std::type_info const & ) noexcept;
+bool operator!=( any_type_index const &, std::type_info const & ) noexcept;
+bool operator<=( any_type_index const &, std::type_info const & ) noexcept;
+bool operator< ( any_type_index const &, std::type_info const & ) noexcept;
+bool operator>=( any_type_index const &, std::type_info const & ) noexcept;
+bool operator> ( any_type_index const &, std::type_info const & ) noexcept;
+bool operator==( std::type_info const &, any_type_index const & ) noexcept;
+bool operator!=( std::type_info const &, any_type_index const & ) noexcept;
+bool operator<=( std::type_info const &, any_type_index const & ) noexcept;
+bool operator< ( std::type_info const &, any_type_index const & ) noexcept;
+bool operator>=( std::type_info const &, any_type_index const & ) noexcept;
+bool operator> ( std::type_info const &, any_type_index const & ) noexcept;
+
+//..............................................................................
+//..............................................................................
+
+// -- definitions
+
+namespace anys { namespace details {
+
+    /// @ingroup SoloAnyHandleDetails
+    /// @class any_type_info
+    /// @brief Wrap @c std::type_info runtime type information with additional
+    /// emptyness and mutability information.
+    struct any_type_info
+    {
+        constexpr explicit any_type_info( std::type_index const &a_eti, mutability a_ismutable ) noexcept
+            : m_external_type_index{ a_eti }// noexcept
+            , m_mutable_flag{ mutability_as_boolean(a_ismutable) }
+            , m_nonempty_flag{ true }
+        {}
+
+        any_type_info() noexcept
+            : m_external_type_index{ typeid(void) }// noexcep
+            , m_mutable_flag{ false }
+            , m_nonempty_flag{ false }
+        {}
+
+        const std::type_index m_external_type_index;
+        const bool m_mutable_flag;
+        const bool m_nonempty_flag;
+    };
+}}
+
+/// @ingroup SoloAnyHandle
 class any_type_index
 {
 public:
@@ -99,7 +188,7 @@ protected:
     // explicit type info-based constructor:
 
     /// @brief The type of the internal pointer to the @c any_type_info singleton instance.
-    using any_type_info_pointer_type = std::experimental::observer_ptr<anys::detail::any_type_info const>;
+    using any_type_info_pointer_type = std::experimental::observer_ptr<anys::details::any_type_info const>;
 
     /// @brief Build a @c any_type_index type information from a static @c any_type_info singleton instance.
     /// @param a_type_info_instance_ptr A static singleton instance of type @c any_type_info .
@@ -121,11 +210,25 @@ static_assert(sizeof(any_type_index) == sizeof(void*), "");
 //..............................................................................
 //..............................................................................
 
-// INLINES :
+// INLINES
+
+namespace anys { namespace details {
+
+    /// @ingroup SoloAnyHandleDetails
+    /// @brief Return a non-mutable reference to the static @em empty @c any_handle_info_wrapper object.
+    /// @post Return an empty type wrapper.
+    inline std::experimental::observer_ptr<any_type_info const>
+    empty_any_type_info_instance_ptr() noexcept
+    {
+        static auto const sti = any_type_info{};
+        return std::experimental::make_observer(&sti);
+    }
+
+}}// EONS SOLO::ANYS::DETAILS
 
 inline
 any_type_index::any_type_index() noexcept
-    : any_type_index{ anys::detail::empty_any_type_info_instance_ptr() }
+    : any_type_index{ anys::details::empty_any_type_info_instance_ptr() }
 {}
 
 inline void
@@ -165,6 +268,80 @@ inline constexpr
 any_type_index::any_type_index( any_type_index::any_type_info_pointer_type a_type_info_instance_ptr ) noexcept
     : m_ti_ptr{a_type_info_instance_ptr}
 {}
+
+//..............................................................................
+//..............................................................................
+
+// -- definitions
+
+namespace
+{
+inline bool operator==( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y == a_x;
+}
+
+inline bool operator!=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y != a_x;
+}
+
+inline bool operator<=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y <= a_x;
+}
+
+inline bool operator< ( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y <  a_x;
+}
+
+inline bool operator>=( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y >= a_x;
+}
+
+inline bool operator> ( std::type_info const &a_x, std::type_index const &a_y ) noexcept
+{
+    return a_y >  a_x;
+}
+}
+
+#define SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( op ) \
+inline bool operator op ( any_type_index const &a_x, any_type_index const &a_y ) noexcept \
+{ \
+        return a_x.external_type_index() op a_y.external_type_index(); \
+} \
+    inline bool operator op ( any_type_index const &a_x, std::type_index const &a_y ) noexcept \
+{ \
+        return a_x.external_type_index() op a_y; \
+} \
+    inline bool operator op ( std::type_index const &a_x, any_type_index const &a_y ) noexcept \
+{ \
+        return a_x op a_y.external_type_index(); \
+} \
+    inline bool operator op ( any_type_index const &a_x, std::type_info const &a_y ) noexcept \
+{ \
+        return a_x.external_type_index() op a_y; \
+} \
+    inline bool operator op ( std::type_info const &a_x, any_type_index const &a_y ) noexcept \
+{ \
+        return a_x op a_y.external_type_index(); \
+}
+
+SOLO_DISABLE_WARNING_PUSH
+    SOLO_DISABLE_WARNING_UNREFERENCED_FUNCTION
+
+            SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( == )
+    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( != )
+    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( < )
+    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( <= )
+    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( > )
+    SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR( >= )
+
+    SOLO_DISABLE_WARNING_POP
+
+#undef SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR
 
 ////////////////////////////////////////////////////////////////////////////////
 }// EONS SOLO

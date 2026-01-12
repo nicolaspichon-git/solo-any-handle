@@ -8,14 +8,14 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <solo/anys/handles/any_handle.hpp>
 #include <solo/anys/handles/pragmas/disables_warnings.hpp>
+#include <solo/anys/handles/any_handle.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo {
+namespace solo { namespace obsolete {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
+// -- package
 
 /// @ingroup SoloAnyHandle
 /// @brief Comparison operators between @c any_handle objects.
@@ -100,7 +100,7 @@ inline bool operator< ( std::nullptr_t, any_handle const & ) noexcept;
 //..............................................................................
 //..............................................................................
 
-// -- definitions :
+// -- definitions
 
 #define SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR( op ) \
     inline bool operator op ( any_handle const &a_x, any_handle const &a_y ) noexcept \
@@ -149,5 +149,5 @@ inline bool operator< ( std::nullptr_t, any_handle const & ) noexcept;
 #undef SOLO_DEFINE_ANY_HANDLE_COMPARISON_OPERATOR
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLO
+}}// EONS SOLO::OBS
 ////////////////////////////////////////////////////////////////////////////////

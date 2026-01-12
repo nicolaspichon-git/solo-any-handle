@@ -12,19 +12,10 @@
 #include <typeindex>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace detail {
+namespace solo { namespace obsolete { namespace anys { namespace details {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
-
-struct any_type_info;
-
-//..............................................................................
-//..............................................................................
-
-// -- definition :
-
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 /// @class any_type_info
 /// @brief Wrap @c std::type_info runtime type information with additional
 /// emptyness and mutability information.
@@ -48,5 +39,5 @@ struct any_type_info
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::DETAIL
+}}}}// EONS SOLO::OBS::ANYS::DETAILS
 ////////////////////////////////////////////////////////////////////////////////

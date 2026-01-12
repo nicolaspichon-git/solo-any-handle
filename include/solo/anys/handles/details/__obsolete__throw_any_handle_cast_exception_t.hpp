@@ -11,18 +11,8 @@
 #include <solo/anys/handles/exceptions/bad_any_handle_cast.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace detail {
+namespace solo { namespace anys { namespace details {
 ////////////////////////////////////////////////////////////////////////////////
-
-// -- forward declaration :
-
-template< typename T, mutability IsCastMutable >
-void throw_any_handle_cast_exception( any_handle const &a_failing_handle );
-
-//..............................................................................
-//..............................................................................
-
-// -- definition :
 
 /// @ingroup SoloAnyHandleDetail
 /// @brief Throw a @c bad_any_handle_cast exception.
@@ -59,6 +49,6 @@ void throw_any_handle_cast_exception( any_handle const &a_failing_handle )
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::DETAIL
+}}}// EONS SOLO::ANYS::DETAILS
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

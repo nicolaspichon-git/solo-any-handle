@@ -12,25 +12,25 @@
 #include <solo/anys/handles/make_any_type_index.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace detail {
+namespace solo { namespace obsolete { namespace anys { namespace details {
 ////////////////////////////////////////////////////////////////////////////////
 
 // -- package :
 
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 template< typename T >
 struct any_handle_builder;
 
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 template <>
 struct any_handle_builder<void>;
 
 //..............................................................................
 //..............................................................................
 
-// -- definition :
+// -- definitions
 
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 /// @brief An helper class to safely build an @c any_handle object
 /// from an already-built typed shared pointer.
 ///
@@ -158,7 +158,7 @@ struct any_handle_builder
 
 //..............................................................................
 
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 /// @brief Specialize @c any_handle_builder for type @c void .
 template <>
 struct any_handle_builder<void>
@@ -174,6 +174,6 @@ struct any_handle_builder<void>
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::DETAIL
+}}}}// EONS SOLO::OBS::ANYS::DETAILS
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

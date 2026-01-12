@@ -8,26 +8,23 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <solo/anys/handles/outcomes/any_handle_cast_result.hpp>
-#include <solo/anys/handles/any_handle.hpp>
+#include <solo/anys/handles/any_handle_mutable_cast.hpp>
+#include <solo/anys/handles/details/throw_any_handle_cast_exception_t.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo {
+namespace solo { namespace obsolete {
 ////////////////////////////////////////////////////////////////////////////////
 
 // -- package :
-
-/// @ingroup SoloAnyHandle
-/// @brief The result type of the operation of casting a @em mutable @c any_handle handle.
-template < typename T >
-using any_handle_mutable_cast_result_type = anys::outcomes::any_handle_cast_result<T, solo::mutability::true_>;
 
 /// @ingroup SoloAnyHandle
 /// @brief Cast the given @c any_handle to a typed shared pointer pointing to the @em mutable handled object.
 /// @param a_handle The type-erased handle to cast.
 /// @pre   @c T is the type stored in @c a_handle.
 /// @pre   @c a_handle is @em mutable (see @c any_handle).
-/// @post  <c>( result.has_value() && result.assume_value() == a_handle.pointer() == a_handle.mutable_pointer() ) || ( result.has_arror() )</c>
+/// @post  <c>result == a_handle.pointer() == a_handle.mutable_pointer()</c>
+/// @throw Throw a @c bad_any_handle_cast exception if @c T is not the type stored in @c a_handle.
+/// @throw Throw a @c bad_any_handle_cast exception if @c a_handle is not @em mutable (see @c any_handle).
 /// @note  Casting to <c>T const</c> returns a @c std::shared_ptr<T const> object although the mutability flag is set :
 ///
 /// @code
@@ -45,35 +42,27 @@ using any_handle_mutable_cast_result_type = anys::outcomes::any_handle_cast_resu
 /// by the casting. This is how _handles_ should work.
 ///
 template< typename T >
-any_handle_mutable_cast_result_type<T> any_handle_mutable_cast( solo::any_handle const & ) noexcept;
+std::shared_ptr<T> any_handle_mutable_cast_or_throw( any_handle const &a_handle );
 
 //..............................................................................
+//..............................................................................
 
-// -- definition:
+// -- definitions
 
 /// @ingroup SoloAnyHandle
 template< typename T >
-inline any_handle_mutable_cast_result_type<T>
-any_handle_mutable_cast( solo::any_handle const &a_handle ) noexcept
+inline std::shared_ptr<T>
+any_handle_mutable_cast_or_throw( any_handle const &a_handle )
 {
-    using solo::anys::errors::any_handle_cast_error;
-
-    if ( a_handle.empty() )// nothrow
+    auto cr = any_handle_mutable_cast<T>(a_handle);
+    if (cr.has_error())
     {
-        return any_handle_cast_error{any_handle_cast_error::code_type::empty_source};// nothrow
+        anys::details::throw_any_handle_cast_exception<T const,mutability::true_>(a_handle);
+        return nullptr;// unreachable
     }
-    if ( a_handle.type() != typeid(T) )// nothrow
-    {
-        return any_handle_cast_error{any_handle_cast_error::code_type::bad_source_type};// nothrow
-    }
-    if ( not a_handle.is_mutable() )// nothrow
-    {
-        return any_handle_cast_error{any_handle_cast_error::code_type::bad_source_mutability};// nothrow
-    }
-
-    return std::static_pointer_cast<T>(a_handle.mutable_pointer());// nothrow
+    return std::move(cr).assume_move_value();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLO
+}}// EONS SOLO::OBS
 ////////////////////////////////////////////////////////////////////////////////

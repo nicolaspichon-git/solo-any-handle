@@ -9,9 +9,9 @@
 
 #include "any_handle_testsuite_types.hpp"
 
-#include <solo/anys/handles/any_handle.hpp>
+// already included in make_any_handle: #include <solo/anys/handles/any_handle.hpp>
+// already included in any_handle_boost_test_outputters: #include <solo/anys/handles/any_handle_cast.hpp>
 #include <solo/anys/handles/make_any_handle.hpp>
-#include <solo/anys/handles/any_handle_cast_or_throw.hpp>
 
 #include <solo/anys/handles/testing/printing/any_handle_boost_test_outputters.hpp>
 #include <stdex/testing/printing/typeindex/std_type_index_boost_test_outputters.hpp>

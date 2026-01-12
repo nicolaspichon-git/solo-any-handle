@@ -13,6 +13,7 @@
 //  - 2021/11/21 : rename casting method any_handle_xxx_cast to any_handle_xxx_cast_or_throw.
 //  - 2021/11/21 : new non-throwing casting methods any_handle_xxx_cast with @c any_handle_cast_result.
 //  - 2021/11/22 : handle @c any_type_info singletons by observer pointers.
+//  - 2026/01/12 : compact headers.
 
 /// @cond 
 

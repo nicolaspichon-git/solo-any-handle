@@ -35,7 +35,7 @@
 /// The only case where a move is allowed is the case where a
 /// @c std::shared_ptr<void> is given to @c solo::make_any_handle_mutable.
 
-/// @defgroup SoloAnyHandleDetail AnyHandle Implementation Details
+/// @defgroup SoloAnyHandleDetails AnyHandle Implementation Details
 /// @ingroup SoloAnyHandle
 
 //..............................................................................
@@ -44,27 +44,15 @@
 
 // any type index :
 // already included : #include <solo/anys/handles/any_type_index.hpp>
-// already included : #include <solo/anys/handles/make_any_type_index.hpp>
-#include <solo/anys/handles/any_type_index_comparison_operators.hpp>
 
-// any handle :
-// already included : #include <solo/anys/handles/any_handle.hpp>
-#include <solo/anys/handles/any_handle_comparison_operators.hpp>
+// any handle:
+// already included: #include <solo/anys/handles/any_handle.hpp>
 
-// factories :
+// non-mutable and mutable factories:
+// already included: #include <solo/anys/handles/make_any_type_index.hpp>
 #include <solo/anys/handles/make_any_handle.hpp>
-#include <solo/anys/handles/make_any_handle_mutable.hpp>
 
-// non-throwing casting :
+// non-throwing and throwing casters for non-mutable and mutable any_handles:
 #include <solo/anys/handles/any_handle_cast.hpp>
-#include <solo/anys/handles/any_handle_mutable_cast.hpp>
-
-// non-throwing casting error helpers :
-#include <solo/anys/handles/errors/any_handle_cast_error_helpers.hpp>
-
-// throwing casting :
-// already included : #include <solo/anys/handles/Exceptions/bad_any_handle_cast.h>
-#include <solo/anys/handles/any_handle_cast_or_throw.hpp>
-#include <solo/anys/handles/any_handle_mutable_cast_or_throw.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////

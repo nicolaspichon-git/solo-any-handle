@@ -12,7 +12,7 @@
 #include <solo/anys/handles/details/any_handle_builder_t.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo {
+namespace solo { namespace obsolete {
 ////////////////////////////////////////////////////////////////////////////////
 
 // -- package :
@@ -51,7 +51,7 @@ any_handle make_any_handle_mutable( std::shared_ptr<void> &&a_type_erased_shared
 //..............................................................................
 //..............................................................................
 
-// -- implementation :
+// -- definitions
 
 /// @ingroup SoloAnyHandle
 template< typename T >
@@ -60,23 +60,23 @@ make_any_handle_mutable( std::shared_ptr<T> const &a_shared_pointer_to_copy )
 {
     static_assert(!std::is_reference<T>::value, "T should not be a reference type");
     static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
-    return anys::detail::any_handle_builder<T>( a_shared_pointer_to_copy, mutability::true_ );
+    return anys::details::any_handle_builder<T>( a_shared_pointer_to_copy, mutability::true_ );
 }
 
 /// @ingroup SoloAnyHandle
 inline any_handle
 make_any_handle_mutable( std::shared_ptr<void> const &a_type_erased_shared_pointer_to_copy )
 {
-    return anys::detail::any_handle_builder<void>( a_type_erased_shared_pointer_to_copy, mutability::true_ );
+    return anys::details::any_handle_builder<void>( a_type_erased_shared_pointer_to_copy, mutability::true_ );
 }
 
 /// @ingroup SoloAnyHandle
 inline any_handle
 make_any_handle_mutable( std::shared_ptr<void> &&a_type_erased_shared_pointer_to_move )
 {
-    return anys::detail::any_handle_builder<void>( std::move(a_type_erased_shared_pointer_to_move), mutability::true_ );
+    return anys::details::any_handle_builder<void>( std::move(a_type_erased_shared_pointer_to_move), mutability::true_ );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLO
+}}// EONS SOLO::OBS
 ////////////////////////////////////////////////////////////////////////////////

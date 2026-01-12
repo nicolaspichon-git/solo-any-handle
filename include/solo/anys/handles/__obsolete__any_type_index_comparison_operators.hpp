@@ -13,10 +13,10 @@
 #include <solo/anys/handles/pragmas/disables_warnings.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo {
+namespace solo { namespace obsolete {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
+// -- package
 
 /// @ingroup SoloAnyHandle
 /// @brief Comparison operators between @c any_type_index objects.
@@ -81,7 +81,7 @@ bool operator> ( std::type_info const &, any_type_index const & ) noexcept;
 //..............................................................................
 //..............................................................................
 
-// -- definitions :
+// -- definitions
 
 namespace
 {
@@ -153,5 +153,5 @@ namespace
 #undef SOLO_DEFINE_ANY_TYPE_INDEX_COMPARISON_OPERATOR
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLO
+}}// EONS SOLO::OBS
 ////////////////////////////////////////////////////////////////////////////////

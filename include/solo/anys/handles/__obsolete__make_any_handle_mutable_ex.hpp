@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <solo/anys/handles/make_any_handle_mutable.hpp>
+#include <solo/anys/handles/make_any_handle.hpp>
 
 #include <stdex/in_place_t.hpp>
 #include <stdex/in_place_type_t.hpp>
@@ -17,27 +17,10 @@
 #include <boost/hof/is_invocable.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo {
+namespace solo { namespace obsolete {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
-
-template < typename T, typename... Args >
-any_handle make_any_handle_mutable( stdex::in_place_t, Args&&... a_type_constructor_arguments_list );
-
-template < typename T, typename U, typename... Args >
-any_handle make_any_handle_mutable( stdex::in_place_type_t<U>, Args&&... a_type_constructor_arguments_list );
-
-template < typename T >
-any_handle make_any_handle_mutable( stdex::observer_ptr<T> const &a_non_owned_pointer_to_copy );
-
-template < typename T, typename F >
-any_handle make_any_handle_mutable( T *a_raw_pointer_to_copy, F &&a_callable_finalizer );
-
-//..............................................................................
-//..............................................................................
-
-// -- implementation :
+// -- package
 
 /// @ingroup SoloAnyHandleAdvanced
 /// @brief Safely build a mutable @c any_handle object, building @em in-place an
@@ -64,15 +47,7 @@ any_handle make_any_handle_mutable( T *a_raw_pointer_to_copy, F &&a_callable_fin
 /// @note @c make_any_handle_mutable<T>(stdex::in_place, args) as the same effect
 /// than @c make_any_handle_mutable<T>(stdex::in_place_type<T>, args).
 template < typename T, typename... Args >
-inline any_handle
-make_any_handle_mutable( stdex::in_place_t, Args&&... a_type_constructor_arguments_list )
-{
-    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
-    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
-
-    // call the first factory :
-    return make_any_handle_mutable( std::make_shared<T>(std::forward<Args>(a_type_constructor_arguments_list)...) );
-}
+any_handle make_any_handle_mutable( stdex::in_place_t, Args&&... a_type_constructor_arguments_list );
 
 /// @ingroup SoloAnyHandleAdvanced
 /// @brief Safely build a mutable @c any_handle object,
@@ -103,17 +78,7 @@ make_any_handle_mutable( stdex::in_place_t, Args&&... a_type_constructor_argumen
 /// @note Use @c make_any_handle_mutable<T>(stdex::in_place, args) instead of
 /// @c make_any_handle_mutable<T>(stdex::in_place_type<T>, args).
 template < typename T, typename U, typename... Args >
-inline any_handle
-make_any_handle_mutable( stdex::in_place_type_t<U>, Args&&... a_type_constructor_arguments_list )
-{
-    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
-    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
-    static_assert(!std::is_reference<U>::value, "U should not be a reference type");
-    static_assert(!std::is_const<U>::value && !std::is_volatile<U>::value, "U should not be cv-qualified");
-
-    // call the first factory :
-    return make_any_handle_mutable<T>( std::make_shared<U>(std::forward<Args>(a_type_constructor_arguments_list)...) );
-}
+any_handle make_any_handle_mutable( stdex::in_place_type_t<U>, Args&&... a_type_constructor_arguments_list );
 
 /// @ingroup SoloAnyHandleAdvanced
 /// @brief Safely build a mutable @c any_handle object
@@ -141,15 +106,7 @@ make_any_handle_mutable( stdex::in_place_type_t<U>, Args&&... a_type_constructor
 /// @note The main point is that the shared pointer built around the object pointed by
 /// @c op won't delete the pointee object after the shared count felt to zero.
 template < typename T >
-inline any_handle
-make_any_handle_mutable( stdex::observer_ptr<T> const &a_non_owned_pointer_to_copy )
-{
-    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
-    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
-
-    // call the first factory :
-    return make_any_handle_mutable( std::shared_ptr<T>(a_non_owned_pointer_to_copy.get(), [](T*){} ) );
-}
+any_handle make_any_handle_mutable( stdex::observer_ptr<T> const &a_non_owned_pointer_to_copy );
 
 /// @ingroup SoloAnyHandleAdvanced
 /// @brief Safely build a mutable @c any_handle object
@@ -188,6 +145,53 @@ make_any_handle_mutable( stdex::observer_ptr<T> const &a_non_owned_pointer_to_co
 /// @note If the template type @c T has a @c const qualifier, then the @c const qualifier
 /// is removed and the inner shared pointer is of type @c T' = @c std::remove_const_t<T>.
 template < typename T, typename F >
+any_handle make_any_handle_mutable( T *a_raw_pointer_to_copy, F &&a_callable_finalizer );
+
+//..............................................................................
+//..............................................................................
+
+// -- definitions
+
+/// @ingroup SoloAnyHandleAdvanced
+template < typename T, typename... Args >
+inline any_handle
+make_any_handle_mutable( stdex::in_place_t, Args&&... a_type_constructor_arguments_list )
+{
+    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
+    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
+
+    // call the first factory :
+    return make_any_handle_mutable( std::make_shared<T>(std::forward<Args>(a_type_constructor_arguments_list)...) );
+}
+
+/// @ingroup SoloAnyHandleAdvanced
+template < typename T, typename U, typename... Args >
+inline any_handle
+make_any_handle_mutable( stdex::in_place_type_t<U>, Args&&... a_type_constructor_arguments_list )
+{
+    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
+    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
+    static_assert(!std::is_reference<U>::value, "U should not be a reference type");
+    static_assert(!std::is_const<U>::value && !std::is_volatile<U>::value, "U should not be cv-qualified");
+
+    // call the first factory :
+    return make_any_handle_mutable<T>( std::make_shared<U>(std::forward<Args>(a_type_constructor_arguments_list)...) );
+}
+
+/// @ingroup SoloAnyHandleAdvanced
+template < typename T >
+inline any_handle
+make_any_handle_mutable( stdex::observer_ptr<T> const &a_non_owned_pointer_to_copy )
+{
+    static_assert(!std::is_reference<T>::value, "T should not be a reference type");
+    static_assert(!std::is_const<T>::value && !std::is_volatile<T>::value, "T should not be cv-qualified");
+
+    // call the first factory :
+    return make_any_handle_mutable( std::shared_ptr<T>(a_non_owned_pointer_to_copy.get(), [](T*){} ) );
+}
+
+/// @ingroup SoloAnyHandleAdvanced
+template < typename T, typename F >
 inline any_handle
 make_any_handle_mutable( T *a_raw_pointer_to_copy, F &&a_callable_finalizer )
 {
@@ -200,5 +204,5 @@ make_any_handle_mutable( T *a_raw_pointer_to_copy, F &&a_callable_finalizer )
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}// EONS SOLO
+}}// EONS SOLO::OBS
 ////////////////////////////////////////////////////////////////////////////////

@@ -12,21 +12,18 @@
 /// @defgroup SoloAnyHandleAdvanced AnyHandle Components Requiring Advanced Traits
 /// @ingroup SoloAnyHandle
 ///
-/// @defgroup SoloAnyHandleTesting AnyHandle Testing Helpers
+/// @defgroup SoloAnyHandleTestingPrinting AnyHandle Testing Printing Helpers
 /// @ingroup SoloAnyHandle
-
-/// @todo SOLO_ANY_HANDLE_LIBRARY_DECLSPEC
-/// @todo Configuration macros to include inlines in .h ou or .cpp
 
 //..............................................................................
 
+// any_handle core package:
 #include <solo/anys/handles/any_handle_core_package.hpp>
 
-// advanced any_handle factories:
+// advanced factories:
 #include <solo/anys/handles/make_any_handle_ex.hpp>
-#include <solo/anys/handles/make_any_handle_mutable_ex.hpp>
 
-// testing helpers:
+// testing printing helpers:
 #include <solo/anys/handles/testing/printing/any_handle_boost_test_outputters.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -9,24 +9,24 @@
 #pragma once
 
 #include <solo/anys/handles/any_handle.hpp>
-
 #include <stdexcept>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace exceptions {
+namespace solo { namespace obsolete { namespace anys { namespace exceptions {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
+// -- package
 
+/// @ingroup SoloAnyHandle
+/// @brief The exception thrown by @c any_handle_cast functions on a failed casting operation.
 class bad_any_handle_cast;
 
 //..............................................................................
 //..............................................................................
 
-// -- implementation :
+// -- definitions
 
 /// @ingroup SoloAnyHandle
-/// @brief The exception thrown by @c any_handle_cast functions on a failed casting operation.
 class bad_any_handle_cast
         : public std::runtime_error
 {
@@ -83,5 +83,5 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::EXCEPTIONS
+}}}}// EONS SOLO::OBS::ANYS::EXCEPTIONS
 ////////////////////////////////////////////////////////////////////////////////

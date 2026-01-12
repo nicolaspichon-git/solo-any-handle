@@ -12,20 +12,10 @@
 #include <experimental/memory>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace solo { namespace anys { namespace detail {
+namespace solo { namespace obsolete { namespace anys { namespace details {
 ////////////////////////////////////////////////////////////////////////////////
 
-// -- package :
-
-std::experimental::observer_ptr<any_type_info const>
-empty_any_type_info_instance_ptr() noexcept;
-
-//..............................................................................
-//..............................................................................
-
-// -- definition :
-
-/// @ingroup SoloAnyHandleDetail
+/// @ingroup SoloAnyHandleDetails
 /// @brief Return a non-mutable reference to the static @em empty @c any_handle_info_wrapper object.
 /// @post Return an empty type wrapper.
 inline std::experimental::observer_ptr<any_type_info const>
@@ -36,5 +26,5 @@ empty_any_type_info_instance_ptr() noexcept
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}}}// EONS SOLO::ANYS::DETAIL
+}}}}// EONS SOLO::OBS::ANYS::DETAILS
 ////////////////////////////////////////////////////////////////////////////////
