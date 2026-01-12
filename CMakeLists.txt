@@ -34,6 +34,7 @@ target_include_directories(solo-any-handle
   INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/stdex/include> # propagate stdex headers
 )
 target_compile_features(solo-any-handle
   INTERFACE
