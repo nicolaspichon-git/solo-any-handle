@@ -1,4 +1,4 @@
-Solo's AnyHandle Library
+Solo's AnyHandle Library {#mainpage}
 ========================
 
 # Introduction
@@ -190,9 +190,9 @@ solo::boost_test_print_type
 
 # Dependencies
 
-- The whole library compiles with C++14 and C++17.
-- The core library (`any_handle_core_package.h`) depends only on STL.
-- The complete library (`any_handle_package.h`) contains the core library and some advanced components that depend on 
+- The library compiles with C++14 and C++17 compilers.
+- The core library (`any_handle_core_package.hpp`) depends only on STL.
+- The complete library (`any_handle_package.hpp`) contains the core library and some advanced components that depend on 
   Boost (Boost.HOF, Boost.Core and Boost.Test) and _stdex_ libraries.
 - The tests suite uses the Boost.Test framework (including the Boost.Core components).
 
@@ -200,11 +200,8 @@ _stdex_ is another header-only library which provides C++17 features that are no
 See [here](../Stdex/StdexIndex.md).
 
 # Building
-(...TODO...)
 
 (...Up to now, the library is header-only and does not require it own building...)
-
-(...Test suites are design for Qt Creator and build from pro files...)
 
 # Version
 See [here](../../Include/Solo/Core/Any/Handle/any_handle_library_version.h).

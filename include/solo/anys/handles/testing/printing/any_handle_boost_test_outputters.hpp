@@ -14,8 +14,8 @@
 namespace solo {
 ////////////////////////////////////////////////////////////////////////////////
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>any_handle</c> boost test's printer.
 /// @note Need to be declared in the same namespace than the type to print.
 /// @see https://www.boost.org/doc/libs/1_xx_0/libs/test/doc/html/boost_test/test_output/test_tools_support_for_logging/testing_tool_output_disable.html
@@ -24,8 +24,8 @@ inline std::ostream &boost_test_print_type(std::ostream &a_os, any_handle const 
     return solo::testing::operator<<(a_os, a_ah);
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>any_type_index</c> boost test's printer.
 /// @note Need to be declared in the same namespace than the type to print.
 /// @see https://www.boost.org/doc/libs/1_xx_0/libs/test/doc/html/boost_test/test_output/test_tools_support_for_logging/testing_tool_output_disable.html
@@ -34,8 +34,8 @@ inline std::ostream &boost_test_print_type(std::ostream &a_os, any_type_index co
     return solo::testing::operator<<(a_os, a_ti);
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>bad_any_handle_cast</c> boost test's printer.
 /// @note Need to be declared in the same namespace than the type to print.
 /// @see https://www.boost.org/doc/libs/1_xx_0/libs/test/doc/html/boost_test/test_output/test_tools_support_for_logging/testing_tool_output_disable.html
@@ -44,8 +44,8 @@ inline std::ostream &boost_test_print_type(std::ostream &a_os, anys::exceptions:
     return solo::testing::operator<<(a_os, a_cast_failure_exception);
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>any_handle_cast_error</c> boost test's printer.
 /// @note Need to be declared in the same namespace than the type to print.
 /// @see https://www.boost.org/doc/libs/1_xx_0/libs/test/doc/html/boost_test/test_output/test_tools_support_for_logging/testing_tool_output_disable.html

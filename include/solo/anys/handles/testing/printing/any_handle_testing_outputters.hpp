@@ -8,8 +8,8 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <solo/anys/handles/errors/any_handle_cast_error.hpp>
-#include <solo/anys/handles/exceptions/bad_any_handle_cast.hpp>
+// already included in any_handle_cast: #include <solo/anys/handles/any_handle.hpp>
+#include <solo/anys/handles/any_handle_cast.hpp>
 
 #include <boost/core/demangle.hpp>
 #include <ostream>
@@ -18,8 +18,8 @@
 namespace solo { namespace testing {
 ////////////////////////////////////////////////////////////////////////////////
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>any_handle</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::any_handle const &a_ah)
 {
@@ -31,8 +31,8 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::any_handle const &a_ah
     return a_os;
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>any_type_index</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::any_type_index const &a_ti)
 {
@@ -42,8 +42,8 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::any_type_index const &
     return a_os;
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>anys::exceptions::bad_any_handle_cast::cast_info</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::anys::exceptions::bad_any_handle_cast::cast_info const &a_ci)
 {
@@ -52,8 +52,8 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::anys::exceptions::bad_
     return a_os;
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>anys::exceptions::bad_any_handle_cast</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::anys::exceptions::bad_any_handle_cast const &a_cast_failure_exception)
 {
@@ -66,8 +66,8 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::anys::exceptions::bad_
     return a_os;
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>anys::errors::any_handle_cast_error::code_type</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::anys::errors::any_handle_cast_error::code_type const &a_cast_error_code )
 {
@@ -92,8 +92,8 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::anys::errors::any_hand
     return a_os;
 }
 
-/// @ingroup SoloAnyHandleTesting
-/// @ingroup SoloCoreTesting
+/// @ingroup SoloAnyHandleTestingPrinting
+/// @ingroup SoloCoreTestingPrinting
 /// @brief Ready-to-use <c>anys::errors::any_handle_cast_error</c> outputter for <c>std::ostream</c>.
 inline std::ostream &operator<<(std::ostream &a_os, solo::anys::errors::any_handle_cast_error const &a_cast_error )
 {
@@ -104,5 +104,5 @@ inline std::ostream &operator<<(std::ostream &a_os, solo::anys::errors::any_hand
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-}}// EONS SOLO::TESTING
+}}// EONS SOLO::TESTING::PRINTING
 ////////////////////////////////////////////////////////////////////////////////
